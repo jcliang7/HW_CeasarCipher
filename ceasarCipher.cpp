@@ -4,6 +4,10 @@
     1）a 是負數怎麼辦？
     2） 如果a, b不是正整數，會出錯。
 */
+/*
+2019/11/16 V3
+解決：a 是負數怎麼辦？
+*/
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -86,6 +90,7 @@ int gcd(int a, int b)
 int inverseA(int a, int b)
 {
     int t[5] = {0, 0, 26, 1, a};
+    if(t[4]<0) t[4] = (t[4]%26)+26;
     while(t[4] != 1) {
 
         t[0] = t[3];
@@ -108,10 +113,7 @@ int bePostiveInt(int n, int shift)
 
 bool checkA(int a)
 {
-    if(a<0) {
-        cout << "a是負數，我不會處理。\n請重新輸入兩個整數a, b：\n";
-        return false;
-    }
+
     if(gcd(a, 26) != 1) {
         cout << "a和26沒有互質。\n請重新輸入兩個整數a, b:\n";
         return false;
