@@ -17,64 +17,85 @@ int main()
 
     int a, b, i;
     string inputA, inputB;
-
+    char e_or_d;
     char m[1000];//明文
     char c[1000];//密文
     char m2[1000];
+    char again = 'y';
+    while(again == 'Y' || again == 'y') {
+        //1)輸入兩個整數a,b
+        cout << "\n請輸入兩個正整數a, b：" << endl;
+        do {
 
-    //1)輸入兩個整數a,b
-    cout << "請輸入兩個正整數a, b：" << endl;
-    do {
+            cin >> inputA >> inputB;
+            cout  << "input A = " << inputA << endl;
+        } while(!checkInput(inputA, inputB)); //2) 檢查輸入是否合法
 
-        cin >> inputA >> inputB;
-        cout  << "input A = " << inputA << endl;
-    } while(!checkInput(inputA, inputB));//2) 檢查輸入是否合法
+        a = str2int(inputA);
+        b = str2int(inputB);
 
-    a = str2int(inputA);
-    b = str2int(inputB);
-    //3)輸入明文m
-    cout << "請輸入一段信息:\n";
-    cin.ignore();
-    cin.getline(m, 1000);
+        //選擇加密或解密
+        cout << "\n請問您要執行甚麼動作?" << endl;
+        cout << "加密(E), 解密(D):" << endl;
+        cin >> e_or_d;
 
-    //4) 加密 y=ax+b mod 26
-    for(i=0; m[i]; i++) {
-        c[i] = m[i];
-        if(c[i] >= 'A' && c[i] <= 'Z') {
-            c[i] = bePostiveInt(a*(c[i] - 'A')+b, 26) + 'A';
+        if(e_or_d == 'E' || e_or_d == 'e') {
+            //3)輸入明文m
+            cout << "\n請輸入一段明文:\n";
+            cin.ignore();
+            cin.getline(m, 1000);
 
-        } else if(c[i] >= 'a' && c[i] <= 'z') {
-            c[i] = bePostiveInt(a*(c[i] - 'a')+b, 26) + 'a';
+            //4) 加密 y=ax+b mod 26
+            for(i=0; m[i]; i++) {
+                c[i] = m[i];
+                if(c[i] >= 'A' && c[i] <= 'Z') {
+                    c[i] = bePostiveInt(a*(c[i] - 'A')+b, 26) + 'A';
+
+                } else if(c[i] >= 'a' && c[i] <= 'z') {
+                    c[i] = bePostiveInt(a*(c[i] - 'a')+b, 26) + 'a';
+                }
+            }
+            c[i] = '\0';
+            cout << "密文是：\n" << c << endl;
+        } else   if(e_or_d == 'D' || e_or_d == 'd') {
+            //5) 求inverse A;
+            int invA = inverseA(a, b);
+            c[0] = 0;
+            cout << "\n請輸入一段密文:\n";
+            cin.ignore();
+            cin.getline(c, 1000);
+
+            //6) 解密x = a^-1(y-b) mod 26
+            for(i=0; c[i]; i++) {
+                m2[i] = c[i];
+                if(m2[i] >= 'A' && m2[i] <= 'Z') {
+                    m2[i] = bePostiveInt(invA*(m2[i] - 'A' - b), 26) + 'A';
+
+                } else if(m2[i] >= 'a' && m2[i] <= 'z') {
+                    m2[i] = bePostiveInt(invA*(m2[i] - 'a' - b), 26 )+ 'a';
+                }
+            }
+            m2[i] = 0;
+
+            cout << "明文是:\n" << m2  << endl;
         }
+
+        cout << "\nPlay Again?" << endl;
+        cout << "再玩一次(Y), 結束(N):" << endl;
+        cin >> again;
+
     }
-    c[i] = '\0';
-    cout << "密文是：\n" << c << endl;
-
-    //5) 求inverse A;
-    int invA = inverseA(a, b);
-
-    //6) 解密x = a^-1(y-b) mod 26
-    for(i=0; c[i]; i++) {
-        m2[i] = c[i];
-        if(m2[i] >= 'A' && m2[i] <= 'Z') {
-            m2[i] = bePostiveInt(invA*(m2[i] - 'A' - b), 26) + 'A';
-
-        } else if(m2[i] >= 'a' && m2[i] <= 'z') {
-            m2[i] = bePostiveInt(invA*(m2[i] - 'a' - b), 26 )+ 'a';
-        }
-    }
-
-    cout << "明文是:\n" << m2  << endl;
-
     return 0;
 }
 
 int gcd(int a, int b)
 {
     int ans;
-    if(a<0)a = a%26+26;
+    if(a<0)
+        a = a%26+26;
     for(int i=1; i<=a; i++) {
-        if(a%i==0 && b%i==0)ans=i;
+        if(a%i==0 && b%i==0)
+            ans=i;
     }
     return ans;
 }
@@ -82,7 +103,8 @@ int gcd(int a, int b)
 int inverseA(int a, int b)
 {
     int t[5] = {0, 0, 26, 1, a%26};
-    if(t[4]<0) t[4] = (t[4]%26)+26;
+    if(t[4]<0)
+        t[4] = (t[4]%26)+26;
     while(t[4] != 1) {
 
         t[0] = t[3];
@@ -90,7 +112,8 @@ int inverseA(int a, int b)
         t[1] = t[0];
         t[2] = t[4];
         t[4] = (a*t[3])%26;
-        if(t[4]<0)t[4]+=26;
+        if(t[4]<0)
+            t[4]+=26;
 
     }
 
@@ -99,7 +122,8 @@ int inverseA(int a, int b)
 
 int bePostiveInt(int n, int shift)
 {
-    if((n%shift)< 0) return n%shift+shift;
+    if((n%shift)< 0)
+        return n%shift+shift;
     return n % shift;
 }
 
@@ -121,8 +145,10 @@ bool checkInt(string s)
         return false;
     }
     for(int i=1; i<s.length(); i++) {
-        if(s[i]>='0' && s[i]<='9') continue;
-        else return false;
+        if(s[i]>='0' && s[i]<='9')
+            continue;
+        else
+            return false;
 
     }
     return true;
@@ -143,17 +169,21 @@ bool checkInput(string inputA, string inputB)
     }
 
     //檢查(a, 26)有沒有互質
-    if(checkA(str2int(inputA)))return true;
-    else return false;
+    if(checkA(str2int(inputA)))
+        return true;
+    else
+        return false;
 
 }
 
 int str2int(string s)
 {
     int ans=0, sign = 1;
-    if(s[0] == '-') sign = -1;
-    else ans += s[0]-'0';
-    for(int i=1; s[i]; i++){
+    if(s[0] == '-')
+        sign = -1;
+    else
+        ans += s[0]-'0';
+    for(int i=1; s[i]; i++) {
         ans *= 10;
         ans += s[i]-'0';
     }
