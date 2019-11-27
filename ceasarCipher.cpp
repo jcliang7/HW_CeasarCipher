@@ -34,18 +34,18 @@ int main()
         a = str2int(inputA);
         b = str2int(inputB);
 
-        //選擇加密或解密
+        //3)選擇加密或解密
         cout << "\n請問您要執行甚麼動作?" << endl;
         cout << "加密(E), 解密(D):" << endl;
         cin >> e_or_d;
 
         if(e_or_d == 'E' || e_or_d == 'e') {
-            //3)輸入明文m
+            //4)輸入明文m
             cout << "\n請輸入一段明文:\n";
             cin.ignore();
             cin.getline(m, 1000);
 
-            //4) 加密 y=ax+b mod 26
+            //5) 加密 y=ax+b mod 26
             for(i=0; m[i]; i++) {
                 c[i] = m[i];
                 if(c[i] >= 'A' && c[i] <= 'Z') {
@@ -56,16 +56,18 @@ int main()
                 }
             }
             c[i] = '\0';
+            //6)輸出密文
             cout << "密文是：\n" << c << endl;
         } else   if(e_or_d == 'D' || e_or_d == 'd') {
-            //5) 求inverse A;
+            //7) 求inverse A;
             int invA = inverseA(a, b);
             c[0] = 0;
+            //8)輸入密文
             cout << "\n請輸入一段密文:\n";
             cin.ignore();
             cin.getline(c, 1000);
 
-            //6) 解密x = a^-1(y-b) mod 26
+            //9) 解密x = a^-1(y-b) mod 26
             for(i=0; c[i]; i++) {
                 m2[i] = c[i];
                 if(m2[i] >= 'A' && m2[i] <= 'Z') {
@@ -76,7 +78,7 @@ int main()
                 }
             }
             m2[i] = 0;
-
+            //10)輸出明文m
             cout << "明文是:\n" << m2  << endl;
         }
 
