@@ -28,7 +28,7 @@ int main()
         do {
 
             cin >> inputA >> inputB;
-            cout  << "input A = " << inputA << endl;
+
         } while(!checkInput(inputA, inputB)); //2) 檢查輸入是否合法
 
         a = str2int(inputA);
