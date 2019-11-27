@@ -1,3 +1,8 @@
+/*
+程式碼存放在此網址:
+https://github.com/jcliang7/HW_CeasarCipher/blob/master/ceasarCipher.cpp#L1
+*/
+
 #include <iostream>
 
 using namespace std;
@@ -57,7 +62,7 @@ int main()
             }
             c[i] = '\0';
             //6)輸出密文
-            cout << "密文是：\n" << c << endl;
+            cout << "\n密文是：\n" << c << endl;
         } else   if(e_or_d == 'D' || e_or_d == 'd') {
             //7) 求inverse A;
             int invA = inverseA(a, b);
@@ -79,7 +84,7 @@ int main()
             }
             m2[i] = 0;
             //10)輸出明文m
-            cout << "明文是:\n" << m2  << endl;
+            cout << "\n明文是:\n" << m2  << endl;
         }
 
         cout << "\nPlay Again?" << endl;
